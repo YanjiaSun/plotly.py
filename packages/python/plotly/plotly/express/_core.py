@@ -1023,10 +1023,10 @@ def _escape_col_name(df_input, col_name, extra):
 
 
 def to_array(x):
-    if hasattr(x, "array"):
-        # timezone-preserving way to get vector out of a pandas Series since 0.24
-        # n.b. calling x.values returns UTC-converted dates which we don't want
-        return x.array
+    # if hasattr(x, "array"):
+    # timezone-preserving way to get vector out of a pandas Series since 0.24
+    # n.b. calling x.values returns UTC-converted dates which we don't want
+    # return x.array
     return np.array(x)
 
 
