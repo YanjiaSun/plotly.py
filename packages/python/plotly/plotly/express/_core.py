@@ -1022,14 +1022,6 @@ def _escape_col_name(df_input, col_name, extra):
     return col_name
 
 
-def to_array(x):
-    if hasattr(x, "array"):
-        # timezone-preserving way to get vector out of a pandas Series since 0.24
-        # n.b. calling x.values returns UTC-converted dates which we don't want
-        return x.array
-    return np.array(x)
-
-
 def process_args_into_dataframe(args, wide_mode, var_name, value_name):
     """
     After this function runs, the `all_attrables` keys of `args` all contain only
@@ -1141,7 +1133,7 @@ def process_args_into_dataframe(args, wide_mode, var_name, value_name):
                                 length,
                             )
                         )
-                    df_output[col_name] = to_array(real_argument)
+                    df_output[col_name] = np.array(real_argument)
                 elif not df_provided:
                     raise ValueError(
                         "String or int arguments are only possible when a "
@@ -1176,7 +1168,7 @@ def process_args_into_dataframe(args, wide_mode, var_name, value_name):
                     )
                 else:
                     col_name = str(argument)
-                    df_output[col_name] = to_array(df_input[argument])
+                    df_output[col_name] = np.array(df_input[argument])
             # ----------------- argument is likely a column / array / list.... -------
             else:
                 if df_provided and hasattr(argument, "name"):
@@ -1205,7 +1197,7 @@ def process_args_into_dataframe(args, wide_mode, var_name, value_name):
                         "length of  previously-processed arguments %s is %d"
                         % (field, len(argument), str(list(df_output.columns)), length)
                     )
-                df_output[str(col_name)] = to_array(argument)
+                df_output[str(col_name)] = np.array(argument)
 
             # Finally, update argument with column name now that column exists
             assert col_name is not None, (
